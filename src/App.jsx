@@ -39,14 +39,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/product/:id"
         element={
           <ProtectedRoute>
             <ProductDetail />
           </ProtectedRoute>
         }
-      />
+      /> */}
 
       {/* Default Redirect */}
       <Route path="*" element={<Navigate to="/products" />} />
