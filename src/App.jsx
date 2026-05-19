@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Product from "./pages/Product";
 import Bill from "./pages/Bill";
-import ProductDetail from "./pages/ProductDetail";
+// import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
   return (
