@@ -622,7 +622,7 @@ export default function Bill() {
             </p>
 
             <p className="text-black text-sm">
-              +91 9876543210
+              +91 9925056938
             </p>
 
             <p className="text-black text-sm">

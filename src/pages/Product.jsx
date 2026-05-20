@@ -262,7 +262,7 @@ export default function Product() {
                 Inventory System
               </span>
             </div>
-            <h1 style={{ fontSize: 'clamp(52px, 6vw, 80px)', fontWeight: 800, letterSpacing: -3, lineHeight: 1, color: '#111' }}>
+            <h1 style={{ fontSize: 'clamp(52px, 6vw, 40px)', fontWeight: 800, letterSpacing: -3, lineHeight: 1, color: '#111' }}>
               Products
             </h1>
             <p style={{ color: '#aaa', marginTop: 10, fontSize: 15 }}>

@@ -201,8 +201,8 @@ font-medium
 
             <h1
               className="
-text-6xl
-md:text-7xl
+text-4xl
+md:text-5xl
 font-black
 tracking-[-4px]
 text-black
