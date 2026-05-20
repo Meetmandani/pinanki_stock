@@ -8,19 +8,15 @@ import Login from "./pages/Login";
 import Product from "./pages/Product";
 import Bill from "./pages/Bill";
 import Dashboard from "./pages/Dashboard";
+import Unpaid from "./pages/Unpaid";
 
 export default function App() {
-
   const [collapsed, setCollapsed] = useState(false);
 
   function ProtectedLayout({ children }) {
     return (
       <ProtectedRoute>
-
-        <Navbar
-          collapsed={collapsed}
-          setCollapsed={setCollapsed}
-        />
+        <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
 
         <main
           className={`
@@ -29,29 +25,20 @@ export default function App() {
           transition-all
           duration-300
 
-          ${
-            collapsed
-              ? "md:ml-[90px]"
-              : "md:ml-[280px]"
-          }
+          ${collapsed ? "md:ml-[90px]" : "md:ml-[280px]"}
           `}
         >
           {children}
         </main>
-
       </ProtectedRoute>
     );
   }
 
   return (
     <Routes>
-
       {/* LOGIN */}
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+      <Route path="/login" element={<Login />} />
 
       {/* PRODUCTS */}
 
@@ -74,6 +61,14 @@ export default function App() {
           </ProtectedLayout>
         }
       />
+      <Route
+        path="/unpaid"
+        element={
+          <ProtectedLayout>
+            <Unpaid />
+          </ProtectedLayout>
+        }
+      />
 
       {/* DASHBOARD */}
 
@@ -88,26 +83,9 @@ export default function App() {
 
       {/* DEFAULT */}
 
-      <Route
-        path="/"
-        element={
-          <Navigate
-            to="/dashboard"
-            replace
-          />
-        }
-      />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-      <Route
-        path="*"
-        element={
-          <Navigate
-            to="/dashboard"
-            replace
-          />
-        }
-      />
-
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }

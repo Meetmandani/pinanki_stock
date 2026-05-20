@@ -3,6 +3,8 @@ import { useState } from "react";
 import logo from "../assets/logo.png";
 import { supabase } from "../supabase";
 
+
+
 import {
   Package2,
   ReceiptText,
@@ -12,6 +14,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+    Wallet,
 } from "lucide-react";
 
 export default function Navbar({ collapsed, setCollapsed }) {
@@ -40,8 +43,12 @@ export default function Navbar({ collapsed, setCollapsed }) {
       label: "Billing",
       path: "/bill",
       icon: ReceiptText,
+    },
+    {
+      label: "Unpaid",
+      path: "/unpaid",
+      icon: Wallet ,
     }
-    
   ];
 
   return (
