@@ -28,6 +28,10 @@ export default function Product() {
     const [description, setDescription] =
     useState("");
 
+
+    const [purchasePrice, setPurchasePrice] =
+    useState("");
+
   const [productPrice, setProductPrice] =
     useState("");
 
@@ -102,6 +106,19 @@ export default function Product() {
 
   }, [products, search]);
 
+
+  const [preview, setPreview] = useState(null);
+
+const handleImageChange = (file) => {
+  if (!file) return;
+
+  setImage(file);
+
+  // Create preview URL
+  const imageUrl = URL.createObjectURL(file);
+  setPreview(imageUrl);
+};
+
   // Add Product
   const handleAddProduct = async (e) => {
 
@@ -160,6 +177,8 @@ export default function Product() {
           product_image:
             publicUrl,
           description: description,
+          p_price:
+            Number(purchasePrice),
         },
       ]);
 
@@ -226,41 +245,33 @@ export default function Product() {
 
       quantity:
         product.quantity,
+      p_price:
+        product.p_price,
     });
   };
 
   // Update Product
-  const handleUpdate = async (id) => {
+const handleUpdate = async (id) => {
+  const { error } = await supabase
+    .from("products")
+    .update({
+      product_name: editData.product_name,
+      product_price: Number(editData.product_price),
+      sku: editData.sku,
+      quantity: Number(editData.quantity),
+      p_price: Number(editData.p_price),
+      description: editData.description,
+    })
+    .eq("id", id);
 
-    const { error } = await supabase
-      .from("products")
-      .update({
-        product_name:
-          editData.product_name,
+  if (error) {
+    alert(error.message);
+    return;
+  }
 
-        product_price:
-          Number(
-            editData.product_price
-          ),
-
-        sku: editData.sku,
-
-        quantity:
-          Number(
-            editData.quantity
-          ),
-      })
-      .eq("id", id);
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    setEditId(null);
-
-    fetchProducts();
-  };
+  setEditId(null);
+  fetchProducts();
+};
 
   return (
     <div className="min-h-screen bg-[#f5f5f7] overflow-x-hidden">
@@ -414,7 +425,7 @@ export default function Product() {
             <div>
 
               <label className="text-sm text-gray-500 mb-3 block">
-                Product Price
+                Selling Price
               </label>
 
               <div className="bg-white border border-gray-200 rounded-3xl px-5 flex items-center">
@@ -426,7 +437,7 @@ export default function Product() {
 
                 <input
                   type="number"
-                  placeholder="4999"
+                  placeholder="Enter price"
                   value={productPrice}
                   onChange={(e) =>
                     setProductPrice(
@@ -439,6 +450,35 @@ export default function Product() {
               </div>
 
             </div>
+             <div>
+
+              <label className="text-sm text-gray-500 mb-3 block">
+                Purchase Price
+              </label>
+
+              <div className="bg-white border border-gray-200 rounded-3xl px-5 flex items-center">
+
+                <IndianRupee
+                  size={18}
+                  className="text-gray-400"
+                />
+
+                <input
+                  type="number"
+                  placeholder="Enter purchase price"
+                  value={purchasePrice}
+                  onChange={(e) =>
+                    setPurchasePrice(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-transparent outline-none p-5 text-lg"
+                />
+
+              </div>
+
+            </div>
+
 
             {/* Quantity */}
             <div>
@@ -499,47 +539,51 @@ export default function Product() {
             </div>
 
             {/* Upload */}
-            <div className="md:col-span-2">
+         <div className="md:col-span-2">
+  <label className="text-sm text-gray-500 mb-3 block">
+    Product Image
+  </label>
 
-              <label className="text-sm text-gray-500 mb-3 block">
-                Product Image
-              </label>
+  <label className="group bg-white border-2 border-dashed border-gray-300 rounded-[35px] p-12 flex flex-col items-center justify-center cursor-pointer hover:border-black transition-all">
 
-              <label className="group bg-white border-2 border-dashed border-gray-300 rounded-[35px] p-12 flex flex-col items-center justify-center cursor-pointer hover:border-black transition-all">
+    {!preview ? (
+      <>
+        <div className="bg-black text-white p-6 rounded-[30px] mb-5 shadow-xl group-hover:scale-110 transition-all">
+          <ImagePlus size={34} />
+        </div>
 
-                <div className="bg-black text-white p-6 rounded-[30px] mb-5 shadow-xl group-hover:scale-110 transition-all">
+        <h3 className="text-2xl font-bold mb-2">
+          Upload Product Image
+        </h3>
 
-                  <ImagePlus size={34} />
+        <p className="text-gray-500">
+          PNG, JPG, WEBP supported
+        </p>
+      </>
+    ) : (
+      <div className="w-full flex flex-col items-center">
+        <img
+          src={preview}
+          alt="preview"
+          className="w-40 h-40 object-cover rounded-3xl shadow-xl mb-4"
+        />
 
-                </div>
+        <p className="text-sm text-gray-500">
+          {image?.name}
+        </p>
+      </div>
+    )}
 
-                <h3 className="text-2xl font-bold mb-2">
-                  Upload Product Image
-                </h3>
-
-                <p className="text-gray-500">
-                  PNG, JPG, WEBP supported
-                </p>
-
-                {image && (
-                  <div className="mt-6 bg-black text-white px-5 py-3 rounded-2xl text-sm">
-                    {image.name}
-                  </div>
-                )}
-
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={(e) =>
-                    setImage(
-                      e.target.files[0]
-                    )
-                  }
-                />
-
-              </label>
-
-            </div>
+    <input
+      type="file"
+      accept="image/*"
+      className="hidden"
+      onChange={(e) =>
+        handleImageChange(e.target.files[0])
+      }
+    />
+  </label>
+</div>
 
             {/* Submit */}
             <button
@@ -614,9 +658,12 @@ export default function Product() {
                   <th className="text-left px-6 py-5">
                     SKU
                   </th>
+                  <th className="text-left px-6 py-5">
+                    Purchase Price
+                  </th>
 
                   <th className="text-left px-6 py-5">
-                    Price
+                     Selling Price
                   </th>
 
                   <th className="text-left px-6 py-5">
@@ -781,6 +828,44 @@ export default function Product() {
                             ₹
                             {
                               product.product_price
+                            }
+                          </h2>
+
+                        )}
+
+                      </td>
+
+                      {/* Purchase Price */}
+                      <td className="px-6 py-5">
+
+                        {editId ===
+                        product.id ? (
+
+                          <input
+                            type="number"
+                            value={
+                              editData.p_price
+                            }
+                            onClick={(e) =>
+                              e.stopPropagation()
+                            }
+                            onChange={(e) =>
+                              setEditData({
+                                ...editData,
+                                p_price:
+                                  e.target
+                                    .value,
+                              })
+                            }
+                            className="border rounded-2xl px-4 py-3 outline-none"
+                          />
+
+                        ) : (
+
+                          <h2 className="text-2xl font-black">
+                            ₹
+                            {
+                              product.p_price
                             }
                           </h2>
 
