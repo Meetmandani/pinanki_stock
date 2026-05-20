@@ -129,7 +129,7 @@ export default function Bill() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f0f0]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-white" >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
@@ -150,7 +150,7 @@ export default function Bill() {
 
       {/* MAIN PAGE */}
       {!showInvoice && (
-        <div className="md:ml-[280px] p-4 md:p-8 pb-16">
+       <div className="p-4 md:p-8 pb-16 max-w-[1600px]  pt-24">
           {/* Header */}
           <div className="mb-10 flex items-end justify-between">
             <div>
@@ -158,7 +158,7 @@ export default function Bill() {
                 <div className="w-2 h-2 rounded-full bg-black"></div>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 3 }} className="text-gray-400 uppercase">POS System</span>
               </div>
-              <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 900, fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: 1, letterSpacing: -3 }}>
+              <h1 style={{  fontWeight: 900, fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: 1, letterSpacing: -3 }}>
                 Billing
               </h1>
               <p className="text-gray-400 mt-2 text-sm">Click products to add · Manage quantities inline</p>
@@ -483,7 +483,7 @@ export default function Bill() {
                 <p className="text-gray-400 mt-3 text-sm">{new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
               </div>
               <div className="text-right">
-                <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 900, letterSpacing: -2, fontSize: 52 }} className="text-white">INVOICE</h1>
+                <h1 style={{ fontWeight: 900, letterSpacing: -2, fontSize: 52 }} className="text-white">INVOICE</h1>
                 <p className="text-gray-400 mt-2 text-sm">Pinanki Solutions</p>
                 <p className="text-gray-500 text-sm">Surat, Gujarat</p>
               </div>
