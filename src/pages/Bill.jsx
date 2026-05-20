@@ -470,140 +470,468 @@ export default function Bill() {
 
       {/* PRINTABLE INVOICE */}
       {showInvoice && (
-        <div className="bg-[#f0f0f0] min-h-screen p-4 md:p-10 print:p-0">
-          <div
-            id="invoice"
-            className="max-w-5xl mx-auto bg-white min-h-screen shadow-2xl print:shadow-none"
+  <div className="bg-[#f0f0f0] min-h-screen p-2 md:p-6 print:p-0">
+  <div
+  id="invoice"
+  className="
+  w-full
+
+  max-w-[210mm]
+  min-h-[297mm]
+
+  mx-auto
+
+  bg-white
+
+  shadow-xl
+  print:shadow-none
+
+  overflow-hidden
+
+  print:max-w-none
+  print:w-[210mm]
+  print:min-h-[297mm]
+
+  print:m-0
+  print:rounded-none
+
+  text-[13px]
+  "
+>
+      {/* HEADER */}
+
+      <div
+        className="
+        bg-black
+        text-white
+
+        px-6
+        py-6
+
+        print:px-5
+        print:py-5
+
+        flex
+        justify-between
+        items-start
+        "
+      >
+        <div>
+          <p
+            className="
+            text-black
+            uppercase
+            tracking-[4px]
+            text-[9px]
+            mb-2
+            "
           >
-            {/* Invoice Header */}
-            <div className="bg-black text-white px-10 py-12 flex justify-between items-start">
-              <div>
-                <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 4 }} className="text-gray-500 uppercase mb-4">Tax Invoice</p>
-                <h2 className="text-4xl font-black tracking-tight">#{Math.floor(Math.random() * 99999).toString().padStart(5, '0')}</h2>
-                <p className="text-gray-400 mt-3 text-sm">{new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-              </div>
-              <div className="text-right">
-                <h1 style={{ fontWeight: 900, letterSpacing: -2, fontSize: 52 }} className="text-white">INVOICE</h1>
-                <p className="text-gray-400 mt-2 text-sm">Pinanki Solutions</p>
-                <p className="text-gray-500 text-sm">Surat, Gujarat</p>
-              </div>
-            </div>
+            Tax Invoice
+          </p>
 
-            <div className="px-10 py-10">
-              {/* Bill To / From */}
-              <div className="grid md:grid-cols-2 gap-10 mb-12">
-                <div>
-                  <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 3 }} className="text-gray-400 uppercase mb-3">Bill To</p>
-                  <h2 className="text-3xl font-black">{customerName || "Walk-in Customer"}</h2>
-                  {customerPhone && <p className="text-gray-500 mt-3 flex items-center gap-2"><Phone size={14} />{customerPhone}</p>}
-                  {customerAddress && <p className="text-gray-500 mt-2 flex items-start gap-2 whitespace-pre-line"><MapPin size={14} className="shrink-0 mt-0.5" />{customerAddress}</p>}
-                </div>
-                <div className="text-right">
-                  <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 3 }} className="text-gray-400 uppercase mb-3">From</p>
-                  <h2 className="text-3xl font-black">Pinanki Solutions</h2>
-                  <p className="text-gray-500 mt-3">Premium Inventory System</p>
-                  <p className="text-gray-500">+91 9876543210</p>
-                  <p className="text-gray-500">Surat, Gujarat</p>
-                </div>
-              </div>
+          <h2 className="text-2xl font-black">
+            #
+            {Math.floor(
+              Math.random() * 99999
+            )
+              .toString()
+              .padStart(5, "0")}
+          </h2>
 
-              {/* Items Table */}
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-black text-white">
-                    <th className="text-left p-4 rounded-l-2xl text-sm font-semibold tracking-wider">#</th>
-                    <th className="text-left p-4 text-sm font-semibold tracking-wider">Product</th>
-                    <th className="text-center p-4 text-sm font-semibold tracking-wider">Qty</th>
-                    <th className="text-right p-4 text-sm font-semibold tracking-wider">Unit Price</th>
-                    <th className="text-right p-4 rounded-r-2xl text-sm font-semibold tracking-wider">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cart.map((item, index) => (
-                    <tr key={item.id} className="border-b border-gray-100">
-                      <td className="py-5 px-4 text-gray-400 text-sm">{String(index + 1).padStart(2, '0')}</td>
-                      <td className="py-5 px-4">
-                        <div className="flex items-center gap-4">
-                          <img src={item.product_image} alt="" className="w-14 h-14 rounded-xl object-cover border border-gray-100" />
-                          <div>
-                            <p className="font-bold">{item.product_name}</p>
-                            <p className="text-gray-400 text-xs mt-0.5" style={{ fontFamily: "'DM Mono', monospace" }}>{item.sku}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="text-center py-5 px-4">
-                        <span className="bg-black text-white font-bold px-3 py-1.5 rounded-lg text-sm">{item.quantity}</span>
-                      </td>
-                      <td className="text-right py-5 px-4 font-medium text-gray-600">₹{item.product_price.toLocaleString()}</td>
-                      <td className="text-right py-5 px-4 font-black text-lg">₹{item.total.toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {/* Totals */}
-              <div className="flex justify-end mt-10">
-                <div className="w-full max-w-xs">
-                  <div className="space-y-3 mb-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Subtotal</span>
-                      <span className="font-semibold">₹{grandTotal.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Discount</span>
-                      <span className="font-semibold">₹0</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Tax (GST)</span>
-                      <span className="font-semibold">₹0</span>
-                    </div>
-                  </div>
-                  <div className="bg-black text-white rounded-2xl px-6 py-5 flex justify-between items-center">
-                    <span className="font-bold uppercase tracking-widest text-sm">Total</span>
-                    <span className="font-black text-3xl">₹{grandTotal.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="mt-16 pt-8 border-t border-gray-100 flex justify-between items-end">
-                <div>
-                  <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-                    Thank you for choosing Pinanki Solutions. We appreciate your trust and support.
-                  </p>
-                  <p className="text-gray-300 text-xs mt-3" style={{ fontFamily: "'DM Mono', monospace" }}>
-                    This is a computer-generated invoice.
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="border-t border-black pt-3 mt-12">
-                    <p className="text-xs text-gray-400">Authorized Signature</p>
-                    <p className="font-bold mt-1">Pinanki Solutions</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="max-w-5xl mx-auto mt-6 flex gap-4 print:hidden">
-            <button
-              onClick={() => setShowInvoice(false)}
-              className="flex-1 bg-white border border-gray-200 py-5 rounded-2xl font-bold hover:border-black transition-colors"
-            >
-              ← Back to Billing
-            </button>
-            <button
-              onClick={handlePrint}
-              disabled={loading}
-              className="flex-1 bg-black text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-900 transition-colors disabled:opacity-60"
-            >
-              <Printer size={20} />
-              {loading ? "Processing..." : "Print Invoice"}
-            </button>
-          </div>
+          <p className="text-black text-xs mt-2">
+            {new Date().toLocaleDateString(
+              "en-IN",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
+          </p>
         </div>
-      )}
+
+        <div className="text-right">
+          <h1 className="text-4xl font-black">
+            INVOICE
+          </h1>
+
+          <p className="text-black text-xs mt-1">
+            Pinanki Solutions
+          </p>
+
+          <p className="text-black text-xs">
+            Surat, Gujarat
+          </p>
+        </div>
+      </div>
+
+      {/* BODY */}
+
+      <div
+        className="
+        px-6
+        py-6
+
+        print:px-5
+        print:py-5
+        "
+      >
+        {/* CUSTOMER */}
+
+        <div className="grid grid-cols-2 gap-6 mb-6">
+
+          <div>
+            <p className="text-black uppercase text-[10px] tracking-[3px] mb-2">
+              Bill To
+            </p>
+
+            <h2 className="text-2xl font-black">
+              {customerName ||
+                "Walk-in Customer"}
+            </h2>
+
+            {customerPhone && (
+              <p className="text-black flex gap-2 mt-2 text-sm">
+                <Phone size={13}/>
+                {customerPhone}
+              </p>
+            )}
+
+            {customerAddress && (
+              <p className="text-black flex gap-2 mt-2 text-sm whitespace-pre-line">
+                <MapPin
+                  size={13}
+                  className="mt-1 shrink-0"
+                />
+                {customerAddress}
+              </p>
+            )}
+          </div>
+
+          <div className="text-right">
+            <p className="text-black uppercase text-[10px] tracking-[3px] mb-2">
+              From
+            </p>
+
+            <h2 className="text-2xl font-black">
+              Pinanki Solutions
+            </h2>
+
+            <p className="text-black text-sm">
+              Premium Inventory System
+            </p>
+
+            <p className="text-black text-sm">
+              +91 9876543210
+            </p>
+
+            <p className="text-black text-sm">
+              Surat, Gujarat
+            </p>
+          </div>
+
+        </div>
+
+        {/* TABLE */}
+
+        <table className="w-full">
+
+          <thead>
+
+            <tr className="bg-black text-white">
+
+              <th className="p-3 text-left rounded-l-xl">
+                #
+              </th>
+
+              <th className="p-3 text-left">
+                Product
+              </th>
+
+              <th className="p-3 text-center">
+                Qty
+              </th>
+
+              <th className="p-3 text-right">
+                Price
+              </th>
+
+              <th className="p-3 text-right rounded-r-xl">
+                Amount
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {cart.map(
+              (item, index) => (
+
+                <tr
+                  key={item.id}
+                  className="
+                  border-b
+                  border-gray-100
+                  "
+                >
+
+                  <td className="p-3 text-black">
+                    {index + 1}
+                  </td>
+
+                  <td className="p-3">
+
+                    <div className="flex gap-3 items-center">
+
+                      <img
+                        src={item.product_image}
+                        alt=""
+                        className="
+                        w-10
+                        h-10
+
+                        object-cover
+                        rounded-lg
+                        "
+                      />
+
+                      <div>
+
+                        <p className="font-semibold">
+                          {item.product_name}
+                        </p>
+
+                        <p className="text-black text-xs">
+                          {item.sku}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </td>
+
+                  <td className="text-center p-3">
+                    {item.quantity}
+                  </td>
+
+                  <td className="text-right p-3">
+                    ₹
+                    {item.product_price.toLocaleString()}
+                  </td>
+
+                  <td className="text-right p-3 font-bold">
+                    ₹
+                    {item.total.toLocaleString()}
+                  </td>
+
+                </tr>
+
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+        {/* TOTAL */}
+
+        <div className="flex justify-end mt-5">
+
+          <div className="w-[240px]">
+
+            <div className="space-y-2 mb-3 text-sm">
+
+              <div className="flex justify-between">
+
+                <span>
+                  Subtotal
+                </span>
+
+                <span>
+                  ₹
+                  {grandTotal.toLocaleString()}
+                </span>
+
+              </div>
+
+              <div className="flex justify-between">
+
+                <span>
+                  Discount
+                </span>
+
+                <span>
+                  ₹0
+                </span>
+
+              </div>
+
+              <div className="flex justify-between">
+
+                <span>
+                  GST
+                </span>
+
+                <span>
+                  ₹0
+                </span>
+
+              </div>
+
+            </div>
+
+            <div
+              className="
+              bg-white
+              text-black
+
+              rounded-xl
+
+              px-5
+              py-4
+
+              flex
+              justify-between
+              "
+            >
+
+              <span>
+                TOTAL
+              </span>
+
+              <span className="text-xl font-black">
+                ₹
+                {grandTotal.toLocaleString()}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* FOOTER */}
+
+        <div
+          className="
+          mt-8
+          pt-5
+
+          border-t
+
+          flex
+          justify-between
+          items-end
+          "
+        >
+
+          <div>
+
+            <p className="text-black text-xs max-w-xs">
+              Thank you for
+              choosing
+              Pinanki Solutions.
+            </p>
+
+            <p className="text-black text-[10px] mt-2">
+              Computer generated invoice.
+            </p>
+
+          </div>
+
+          <div className="text-right">
+
+            <div className="border-t pt-2">
+
+              <p className="text-xs text-black">
+                Authorized Signature
+              </p>
+
+              <p className="font-bold">
+                Pinanki Solutions
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* BUTTONS */}
+
+    <div
+      className="
+      max-w-4xl
+      mx-auto
+
+      mt-4
+
+      flex
+      gap-3
+
+      print:hidden
+      "
+    >
+
+      <button
+        onClick={() =>
+          setShowInvoice(false)
+        }
+        className="
+        flex-1
+
+        bg-white
+
+        border
+
+        py-4
+
+        rounded-xl
+
+        font-bold
+        "
+      >
+        ← Back
+      </button>
+
+      <button
+        onClick={handlePrint}
+        disabled={loading}
+        className="
+        flex-1
+
+        bg-black
+        text-white
+
+        py-4
+
+        rounded-xl
+
+        font-bold
+        "
+      >
+        <Printer
+          size={18}
+          className="inline mr-2"
+        />
+
+        {loading
+          ? "Processing..."
+          : "Print Invoice"}
+
+      </button>
+
+    </div>
+
+  </div>
+)}
     </div>
   );
 }

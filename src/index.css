@@ -1,1 +1,44 @@
 @import "tailwindcss";
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #invoice,
+  #invoice * {
+    visibility: visible;
+  }
+
+  #invoice {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    box-shadow: none !important;
+
+    width: 210mm;
+    min-height: 297mm;
+
+    padding: 8mm;
+
+    overflow: hidden;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+}
